@@ -2,7 +2,7 @@ import {FlowUrl} from './index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Location = {
-  location: async ({userId, userData}, location) => {
+  location: async (userId, userData, location) => {
     const token = await AsyncStorage.getItem('auth');
     const locationdata = {
       from: userId,

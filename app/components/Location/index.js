@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   Modal,
+  Dimensions,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
@@ -16,11 +17,15 @@ import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import {getLocations} from '../../services/location.js';
 const Location = ({navigation}) => {
+  const [userList, setUserList] = useState([]);
+  const [userData, setuserData] = useState({});
+
   const [shareData, setShareData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentLocation, setCurrentLocation] = useState();
   const [currentLocationMarker, setcurrentLocationMarker] = useState();
-
+  let {width, height} = Dimensions.get('window');
+  const [widthOfMap, setWidthOfMap] = useState(width);
   useEffect(async () => {
     const id = await AsyncStorage.getItem('user');
     getLocations
@@ -32,6 +37,12 @@ const Location = ({navigation}) => {
         console.log(err);
       });
   }, []);
+
+  const viewUser = async item => {
+    console.log(item);
+    setModalVisible(true);
+  };
+
   return (
     <ScrollView>
       <Container>
@@ -46,7 +57,9 @@ const Location = ({navigation}) => {
                 <View>
                   <Text style={styles.mailtext}>{item.to.email}</Text>
                 </View>
-                <TouchableOpacity style={styles.viewBtn}>
+                <TouchableOpacity
+                  style={styles.viewBtn}
+                  onPress={() => viewUser(item)}>
                   <Text style={styles.viewBtnText}>View</Text>
                 </TouchableOpacity>
               </View>

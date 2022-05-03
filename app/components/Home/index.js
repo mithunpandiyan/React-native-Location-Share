@@ -30,11 +30,12 @@ import close from 'react-native-vector-icons';
 import {Marker} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {Location} from '../../services/location.js';
+
 const Home = ({navigation}) => {
   const [userList, setUserList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState();
-  const [currentLocationMarker, setcurrentLocationMarker] = useState();
+  const [currentLocation, setCurrentLocation] = useState({});
+  const [currentLocationMarker, setcurrentLocationMarker] = useState({});
   const [userData, setuserData] = useState({});
   let {width, height} = Dimensions.get('window');
   const [widthOfMap, setWidthOfMap] = useState(width);
@@ -82,7 +83,7 @@ const Home = ({navigation}) => {
 
   const shareLocationUser = async () => {
     const userId = await AsyncStorage.getItem('user');
-    Location.location({userId, userData}, currentLocation)
+    Location.location(userId, userData, currentLocation)
       .then(res => {
         console.log(res.data);
         setModalVisible(false);
@@ -135,7 +136,7 @@ const Home = ({navigation}) => {
                   zoomTapEnabled={true}
                   showsScale={true}
                   zoomEnabled={true}
-                  scrollEnabled={true}
+                  scrollEnabled={false}
                   onMapReady={() => {
                     setWidthOfMap(widthOfMap - 1);
                   }}
